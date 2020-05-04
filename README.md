@@ -98,31 +98,30 @@ Create your bot with @Botfather (/newbot)
 
 add `TELEGRAM_TOKEN` with the value you got from @Botfather in /etc/environment (TELEGRAM_TOKEN="theToken Value")
 
-apt-get update
-
-apt-get install -y curl gnupg2 git build-essential
-
-cd /opt
-
-git clone https://github.com/idoco/intergram
-
-cd /opt/intergram
+    apt-get update && apt-get install -y curl gnupg2 git build-essential
+    cd /opt
+    git clone https://github.com/fox34/intergram
+    cd /opt/intergram
 
 edit server.js and add the following at the top:
 
-const fs = require('fs') // Required for reading the certificate and key files
-let options = { key: fs.readFileSync("/opt/intergram/key.pem"), cert: fs.readFileSync("/opt/intergram/bundle.crt") };
+    const fs = require('fs') // Required for reading the certificate and key files
+    let options = { key: fs.readFileSync("/opt/intergram/key.pem"), cert: fs.readFileSync("/opt/intergram/bundle.crt") };
 
 replace the line
-const http = require ('http').Server(app);
-with
-const http = require ('https').Server(options,app);
 
-change the port as 3000 does not seem to be allowed -i have also added a line to see if we get the TELEGRAM_TOKEN from environment
-http.listen(process.env.PORT || 8443, function(){
-console.log('listening on port:' + (process.env.PORT || 8443));
-console.log(process.env.TELEGRAM_TOKEN);
-});
+    const http = require ('http').Server(app);
+
+with
+
+    const http = require ('https').Server(options,app);
+
+change the port as 3000 does not seem to be allowed -i have also added a line to see if we get the TELEGRAM_TOKEN from environment:
+
+    http.listen(process.env.PORT || 8443, function(){
+        console.log('listening on port:' + (process.env.PORT || 8443));
+        console.log(process.env.TELEGRAM_TOKEN);
+    });
 
 **IMPORTANT! YOUR CERTIFICATE MUST ALSO CONTAIN THE INTERMEDIATE CERTIFICATE AT THE BOTTOM OTHERWISE THE HOOK WILL NOT WORK**
 SEE https://cubewebsites.com/guides/fix-telegram-webhooks-not-working/
@@ -130,15 +129,14 @@ SEE https://cubewebsites.com/guides/fix-telegram-webhooks-not-working/
 Point the bot webhook to your bot server by making a `GET` request to the following url (just put the address in your browser)
 `https://api.telegram.org/bot<TOKEN>/setWebhook?url=<https://yourServerURL:8443>/hook`
 
-npm install
-
-npm run build
-
-npm start
+    npm install
+    npm run build
+    npm start
 
 you should see:
-listening on port:8443
-1xxxxxxxxxxxxxxxxxV10etq-UVxxxxxxxxxxxxxhAIU3XYZtkI
+
+    listening on port:8443
+    1xxxxxxxxxxxxxxxxxV10etq-UVxxxxxxxxxxxxxhAIU3XYZtkI
 
 test by navigating on your browser to https://yourServerURL:8443
 you should get the demo page
@@ -146,9 +144,8 @@ you should get the demo page
 type /start in your bot in order to get the client-id
 
 in your project:
-window.intergramId = "client-id"
-window.intergramServer = "https://yourServerURL:8443"
+
+    window.intergramId = "client-id"
+    window.intergramServer = "https://yourServerURL:8443"
 
 <script id="intergram" type="text/javascript" src="yourServerURL:8443/js/widget.js"></script>
-Hope this helps
-
