@@ -46,6 +46,9 @@ Currently you can customize all visible texts and the main widget color by setti
         mainColor: "#E91E63", // Can be any css supported color 'red', 'rgb(255,87,34)', etc
         alwaysUseFloatingButton: false // Use the mobile floating button also on large screens
     };
+    window.intergramOnOpen = {
+        visitorName: 'Custom visitor name' // Will  be appended to unique visitor id
+    };
 </script>
 <script id="intergram" type="text/javascript" src="https://www.intergram.xyz/js/widget.js"></script>
 ```
